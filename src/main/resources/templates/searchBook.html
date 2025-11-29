@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+<h2>Search Results</h2>
+<ul>
+    <li th:each="book : ${books}">
+        <img th:src="${book.thumbnail}" alt="Cover"/>
+        <strong th:text="${book.title}"></strong> by
+        <span th:text="${#strings.arrayJoin(book.authors, ', ')}"></span>
+        <p th:text="${book.description}"></p>
+    </li>
+</ul>
+</body>
+</html>

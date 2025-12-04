@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FullBookDescription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #7fb6ea;
+            color: #0c0506;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            background-color: #70acee;
+            border: 1px solid #70acee;
+            border-radius: 8px;
+            padding: 20px;
+            display: inline-block;
+        }
+        a {
+            color: #721c24;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <ul>
+        <li th:each="book : ${books}">
+            <!-- Название -->
+            <h1 th:text="${book.title}">Название книги</h1>
+
+            <!-- Авторы -->
+            <p><strong>Authors:</strong>
+                <span th:text="${#strings.arrayJoin(book.authors, ', ')}">Автор</span>
+            </p>
+
+            <!-- Издатель и дата -->
+            <p><strong>Publisher:</strong> <span th:text="${book.publisher}">Издатель</span></p>
+            <p><strong>Published:</strong> <span th:text="${book.publishedDate}">Дата публикации</span></p>
+
+            <!-- ISBN -->
+            <p><strong>ISBN-10:</strong> <span th:text="${book.isbn10}">ISBN-10</span></p>
+            <p><strong>ISBN-13:</strong> <span th:text="${book.isbn13}">ISBN-13</span></p>
+
+            <!-- Обложка -->
+            <div>
+                <img th:src="${book.thumbnail}" alt="Book cover"/>
+            </div>
+
+            <!-- Описание -->
+            <h2>Description</h2>
+            <p th:text="${book.description}">Описание книги</p>
+
+            <hr/>
+        </li>
+    </ul>
+
+    <a th:href="@{/book/getListOfBooks}">Return to list of books</a>
+</div>
+</body>
+</html>

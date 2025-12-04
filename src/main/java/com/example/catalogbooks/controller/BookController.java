@@ -20,6 +20,6 @@ public class BookController {
     @GetMapping("/searchBook")
     public String searchBook(@RequestParam String query, Model model) {
         model.addAttribute("books", booksGoogleService.searchBooks(query));
-        return "searchBook";
+        return "getBookInformation";
     }
 }

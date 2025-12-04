@@ -19,17 +19,17 @@ public class BooksGoogleService {
 
     public List<BookDto> searchBooks (String query) {
         String url = UriComponentsBuilder.fromUriString(GOOGLE_BOOKS_API)
-                .queryParam("q", query)
-                .queryParam("maxResults", 5)
-                .queryParam("printType", "books")
+                .queryParam("q", query)                   //NOTE: поисковый запрос
+                .queryParam("maxResults", 5)       //NOTE: ограничение на количество книг
+                .queryParam("printType", "books") //NOTE: искать только книги (а не журналы)
                 .toUriString();
 
-        String response = restTemplate.getForObject(url, String.class);
+        String response = restTemplate.getForObject(url, String.class); //NOTE: Отправляется GET‑запрос. Ответ приходит в виде JSON‑строки
         List<BookDto> books = new ArrayList<>();
 
         try{
-            JsonNode root = objectMapper.readTree(response);
-            JsonNode items = root.path("items");
+            JsonNode root = objectMapper.readTree(response); //NOTE: readTree превращает JSON‑строку в дерево JsonNode
+            JsonNode items = root.path("items"); //NOTE: Из корня берётся массив "items" — список книг
 
             for(JsonNode item : items) {
                 JsonNode volumeInfo = item.path("volumeInfo");
@@ -42,8 +42,9 @@ public class BooksGoogleService {
                 dto.setDescription(volumeInfo.path("description").asText());
 
                 // ISBN
-                for (JsonNode identifier : volumeInfo.path("industryIdentifiers")) {
-                    if ("ISBN_10".equals(identifier.path("type").asText())) {
+                for (JsonNode identifier : volumeInfo.path("industryIdentifiers")) {  //NOTE: В JSON может быть массив industryIdentifiers.
+                    if ("ISBN_10".equals(identifier.path("type").asText())) {          //NOTE: Проверяется тип (ISBN_10 или ISBN_13)
+
                         dto.setIsbn10(identifier.path("identifier").asText());
                     } else if ("ISBN_13".equals(identifier.path("type").asText())) {
                         dto.setIsbn13(identifier.path("identifier").asText());

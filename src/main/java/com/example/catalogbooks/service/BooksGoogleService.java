@@ -20,7 +20,7 @@ public class BooksGoogleService {
     public List<BookDto> searchBooks (String query) {
         String url = UriComponentsBuilder.fromUriString(GOOGLE_BOOKS_API)
                 .queryParam("q", query)                   //NOTE: поисковый запрос
-                .queryParam("maxResults", 5)       //NOTE: ограничение на количество книг
+                .queryParam("maxResults", 20)       //NOTE: ограничение на количество книг
                 .queryParam("printType", "books") //NOTE: искать только книги (а не журналы)
                 .toUriString();
 
@@ -58,7 +58,13 @@ public class BooksGoogleService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return books;
+    }
+    public List<BookDto> searchByTitle (String title) {
+        return searchBooks("title : " + title);
+    }
+
+    public List<BookDto> searchByAuthor (String author) {
+        return searchBooks("author : " + author);
     }
 }

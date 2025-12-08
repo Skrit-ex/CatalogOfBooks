@@ -55,5 +55,29 @@
 
     <a th:href="@{/}">Return to library</a>
 </div>
+
+<div>
+    <li th:if="${currentPage > 0}" class="page-item">
+        <a class="page-link"
+           th:href="@{/book/searchBook(query=${query}, type=${type}, page=${currentPage-1}, size=${size}, sort=${sortField}, direction=${sortDir})}">
+            Previous
+        </a>
+    </li>
+
+    <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+        th:classappend="${i == currentPage} ? 'active'">
+        <a class="page-link"
+           th:href="@{/book/searchBook(query=${query}, type=${type}, page=${i}, size=${size}, sort=${sortField}, direction=${sortDir})}"
+           th:text="${i+1}">1</a>
+    </li>
+
+    <li th:if="${currentPage < totalPages-1}" class="page-item">
+        <a class="page-link"
+           th:href="@{/book/searchBook(query=${query}, type=${type}, page=${currentPage+1}, size=${size}, sort=${sortField}, direction=${sortDir})}">
+            Next
+        </a>
+    </li>
+
+</div>
 </body>
 </html>
